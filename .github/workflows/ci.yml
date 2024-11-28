@@ -1,0 +1,60 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Checkstyle
+        run: |
+          # Assurez-vous que le plugin Checkstyle est configuré dans votre POM.xml
+          mvn checkstyle:check
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Unit Tests
+        run: |
+          mvn test
+
+  # coverage:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Run Tests with Coverage
+  #       run: |
+  #         # Assurez-vous que le plugin JaCoCo est configuré dans votre POM.xml
+  #         mvn clean verify
+  #     - name: Check code coverage
+  #       run: |
+  #         # Vous pouvez ajouter une étape pour vérifier la couverture minimale si nécessaire
+  #         mvn jacoco:check
+
+  # performance:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Run Performance Tests
+  #       run: |
+  #         # Commande pour exécuter des tests de performance (exemple personnalisé)
+  #         ./runPerformanceTests.sh 
+
+  # sast:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Run Semgrep for SAST
+  #       run: |
+  #         # Exécution de Semgrep pour les tests de sécurité statique
+  #         semgrep --config=auto
