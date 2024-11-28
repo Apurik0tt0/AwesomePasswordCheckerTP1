@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "AwesomePasswordChecker",
+      "request": "launch",
+      "mainClass": "fr.isima.codereview.tp1.awesomepasswordchecker.AwesomePasswordChecker",
+      "projectName": "AwesomePasswordChecker"
+    },
+    {
+      "type": "java",
+      "name": "Launch JUnit Test",
+      "request": "launch",
+      "mainClass": "",
+      "projectName": "YourProjectName",
+      "vmArgs": "-Dtest=true",
+      "args": ""
+    }
+  ]
+}
