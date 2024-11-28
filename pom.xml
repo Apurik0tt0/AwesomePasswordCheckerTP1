@@ -39,6 +39,22 @@
                     <excludes>biz/futureware/mantisconnect/*</excludes>
                 </configuration>
             </plugin>
+
+            <!-- Jacoco plugin-->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     
