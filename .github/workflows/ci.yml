@@ -30,6 +30,52 @@ jobs:
         run: |
           mvn test
 
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adoptopenjdk'
+
+    - name: Build project with Maven
+      run: mvn clean install -DskipTests
+    
+    - name: Deploy to GitHub Maven Registry
+      run: mvn deploy -DskipTests --settings .github/maven-settings.xml
+
+    - name: Generate Javadoc
+      run: mvn javadoc:javadoc
+
+    - name: Deploy Javadoc to GitHub Pages
+      run: |
+        mkdir -p $HOME/github-pages/javadoc
+        cp -r target/site/apidocs/* $HOME/github-pages/javadoc/${{ github.sha }}
+        git clone --branch gh-pages https://github.com/${{ github.repository }} $HOME/github-pages
+        cd $HOME/github-pages
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        git commit -m "Deploy Javadoc for version ${{ github.sha }}"
+        git push origin gh-pages
+
+    - name: Generate Cobertura Report
+      run: mvn cobertura:cobertura
+
+    - name: Deploy Cobertura Report to GitHub Pages
+      run: |
+        mkdir -p $HOME/github-pages/cobertura
+        cp -r target/site/cobertura/* $HOME/github-pages/cobertura/${{ github.sha }}
+        cd $HOME/github-pages
+        git add .
+        git commit -m "Deploy Cobertura report for version ${{ github.sha }}"
+        git push origin gh-pages
+
   # coverage:
   #   runs-on: ubuntu-latest
   #   steps:
