@@ -135,4 +135,23 @@ public class AwesomePasswordCheckerTest {
     String result = AwesomePasswordChecker.computeMD5(input);
     assertEquals(expResult, result);
   }
+  
+  /**
+   * Test de performance de la méthode computeMD5
+   */
+  @Test
+  public void testPerformanceComputeMD5() {
+    String input = "myawesomepassword".repeat(1000);
+    long startTime = System.nanoTime();
+    
+    AwesomePasswordChecker.computeMD5(input);
+    
+    long endTime = System.nanoTime();
+    long duration = endTime - startTime;
+    
+    System.out.println("Durée de computeMD5 pour une entrée longue : " + duration + " nanosecondes");
+    
+    assertTrue("Le temps d'exécution ne doit pas dépasser 1 seconde", duration < 1_000_000_000);
+  }
+
 }
